@@ -1,6 +1,6 @@
 {
   "db": {
-    "uri": "mongodb://root:Co5G22FfGDF5lEwFlJ1QOw4P@172.21.105.241:27017"
+    "uri": "mongodb://root:Co5G22FfGDF5lEwFlJ1QOw4P@172.21.105.241:27017/userdb"
   },
   "jwt": {
     "secret": "your_secret_key"
