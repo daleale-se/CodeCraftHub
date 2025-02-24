@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # Service for the Node.js application
+  app:
+    build:
+      context: .  # Use the current directory to build the Docker image
+    ports:
+      - "5000:5000"  # Expose port 5000 on the host to port 5000 on the container
+    depends_on:
+      - mongodb  # Ensure MongoDB is started before the app
+    environment:
+      - DB_URI=mongodb://mongodb:27017/user-management  # Set the MongoDB URI to point to the MongoDB service
+    volumes:
+      - .:/app  # Mount the current directory into the container to reflect changes without rebuilding the container
+
+  # Service for MongoDB
+  mongodb:
+    image: mongo:latest  # Use the official MongoDB image
+    ports:
+      - "27017:27017"  # Expose MongoDB port 27017 on the host to the container's port 27017
+    volumes:
+      - mongodb_data:/data/db  # Persist MongoDB data even when the container is stopped or recreated
+
+volumes:
+  mongodb_data:  # Define a named volume to store MongoDB data

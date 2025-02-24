@@ -53,3 +53,64 @@ exports.login = async (req, res) => {
   }
 };
 
+// Controller to update a user's name or email
+exports.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email } = req.body;
+
+    // Find the user by ID and update their name or email
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { name, email },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Controller to get a user's profile by ID
+exports.getUserProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the user by ID
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Controller to delete a user's profile by ID
+exports.deleteUserProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the user by ID and delete
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json({ message: 'User profile deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
